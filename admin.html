@@ -301,40 +301,6 @@
             });
         }
 
-        // Image optimization function
-        function optimizeImage(file, maxWidth = 800, maxHeight = 800, quality = 0.8) {
-            return new Promise((resolve) => {
-                const img = new Image();
-                img.src = URL.createObjectURL(file);
-                img.onload = () => {
-                    const canvas = document.createElement('canvas');
-                    let width = img.width;
-                    let height = img.height;
-
-                    // Calculate new dimensions while maintaining aspect ratio
-                    if (width > height) {
-                        if (width > maxWidth) {
-                            height *= maxWidth / width;
-                            width = maxWidth;
-                        }
-                    } else {
-                        if (height > maxHeight) {
-                            width *= maxHeight / height;
-                            height = maxHeight;
-                        }
-                    }
-
-                    canvas.width = width;
-                    canvas.height = height;
-                    const ctx = canvas.getContext('2d');
-                    ctx.drawImage(img, 0, 0, width, height);
-
-                    canvas.toBlob(blob => {
-                        readFileAsBase64(blob).then(resolve);
-                    }, file.type, quality);
-                };
-            });
-        }
 
         // Handle file selection and preview
         document.getElementById('images').addEventListener('change', function (e) {
@@ -416,7 +382,8 @@
 
             try {
                 // Process all images
-                const imagePromises = selectedFiles.map(file => optimizeImage(file));
+                const imagePromises = selectedFiles.map(file => readFileAsBase64(file));
+
                 const base64Images = await Promise.all(imagePromises);
 
                 // Save to Firebase

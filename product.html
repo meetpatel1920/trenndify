@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details - MyShop</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #ffecd2, #fcb69f);
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .back-nav {
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 20px;
+            background: rgba(255, 255, 255, 0.3);
+            color: #333;
+            text-decoration: none;
+            border-radius: 25px;
+            transition: all 0.3s ease;
+            font-weight: 600;
+        }
+
+        .back-btn:hover {
+            background: rgba(255, 255, 255, 0.5);
+            transform: translateX(-5px);
+        }
+
+        .product-detail {
+            background: white;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            margin-bottom: 30px;
+        }
+
+        .product-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0;
+            min-height: 500px;
+        }
+
+        .image-section {
+            position: relative;
+            background: #f8f8f8;
+        }
+
+        .main-image-container {
+            position: relative;
+            width: 100%;
+            height: 400px;
+            overflow: hidden;
+        }
+
+        .main-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .main-image:hover {
+            transform: scale(1.05);
+        }
+
+        .image-thumbnails {
+            display: flex;
+            gap: 10px;
+            padding: 15px;
+            overflow-x: auto;
+        }
+
+        .thumbnail {
+            flex-shrink: 0;
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            overflow: hidden;
+            cursor: pointer;
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .thumbnail.active {
+            border-color: #ff7e5f;
+            transform: scale(1.1);
+        }
+
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .info-section {
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .product-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #333;
+            margin-bottom: 15px;
+            line-height: 1.2;
+        }
+
+        .product-price {
+            font-size: 2rem;
+            color: #ff7e5f;
+            font-weight: bold;
+            margin-bottom: 25px;
+        }
+
+        .product-description {
+            font-size: 1.1rem;
+            line-height: 1.8;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        .product-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #f8f8f8;
+            border-radius: 10px;
+        }
+
+        .feature-icon {
+            font-size: 1.2rem;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 15px;
+            margin-top: auto;
+        }
+
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn-primary {
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            color: white;
+            flex: 2;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(255, 126, 95, 0.4);
+        }
+
+        .btn-secondary {
+            background: white;
+            color: #ff7e5f;
+            border: 2px solid #ff7e5f;
+            flex: 1;
+        }
+
+        .btn-secondary:hover {
+            background: #ff7e5f;
+            color: white;
+        }
+
+        .loading {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 400px;
+            font-size: 1.2rem;
+            color: #666;
+        }
+
+        .spinner {
+            display: inline-block;
+            width: 40px;
+            height: 40px;
+            border: 4px solid #f3f3f3;
+            border-top: 4px solid #ff7e5f;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 15px;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0deg);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        .not-found {
+            text-align: center;
+            padding: 80px 20px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .not-found h2 {
+            font-size: 2rem;
+            color: #333;
+            margin-bottom: 15px;
+        }
+
+        .not-found p {
+            font-size: 1.1rem;
+            color: #666;
+            margin-bottom: 30px;
+        }
+
+        @media (max-width: 768px) {
+            .product-content {
+                grid-template-columns: 1fr;
+            }
+
+            .main-image-container {
+                height: 300px;
+            }
+
+            .info-section {
+                padding: 30px 20px;
+            }
+
+            .product-title {
+                font-size: 2rem;
+            }
+
+            .product-price {
+                font-size: 1.5rem;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .container {
+                padding: 15px;
+            }
+        }
+    </style>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="back-nav">
+            <a href="index.html" class="back-btn">
+                ← Back to Shop
+            </a>
+        </div>
+
+        <div id="loading" class="loading">
+            <div class="spinner"></div>
+            <div>Loading product details...</div>
+        </div>
+
+        <div id="product-detail" class="product-detail" style="display: none;">
+            <div class="product-content">
+                <div class="image-section">
+                    <div class="main-image-container">
+                        <img id="main-image" class="main-image" src="" alt="">
+                    </div>
+                    <div id="image-thumbnails" class="image-thumbnails">
+                        <!-- Thumbnails will be populated here -->
+                    </div>
+                </div>
+
+                <div class="info-section">
+                    <h1 id="product-title" class="product-title"></h1>
+                    <div id="product-price" class="product-price"></div>
+                    <div id="product-description" class="product-description"></div>
+
+                    <div class="product-features">
+                        <div class="feature-item">
+                            <span class="feature-icon">🚚</span>
+                            <span>Free Delivery</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">🔄</span>
+                            <span>Easy Returns</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">⭐</span>
+                            <span>Quality Assured</span>
+                        </div>
+                        <div class="feature-item">
+                            <span class="feature-icon">💰</span>
+                            <span>Best Price</span>
+                        </div>
+                    </div>
+
+                    <div class="action-buttons">
+                        <button class="btn btn-primary" onclick="buyNow()">
+                            🛒 Buy Now
+                        </button>
+                        <button class="btn btn-secondary" onclick="addToWishlist()">
+                            💝 Wishlist
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="not-found" class="not-found" style="display: none;">
+            <h2>Product Not Found</h2>
+            <p>Sorry, the product you're looking for doesn't exist or has been removed.</p>
+            <a href="index.html" class="btn btn-primary">Back to Shop</a>
+        </div>
+    </div>
+
+    <script src="firebase-config.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        let currentProduct = null;
+
+        function loadProduct() {
+            if (!productId) {
+                showNotFound();
+                return;
+            }
+
+            // const productRef = db.ref('products/' + productId);
+
+            // productRef.once('value', (snapshot) => {
+            //     const product = snapshot.val();
+            //     const loadingDiv = document.getElementById('loading');
+
+            //     loadingDiv.style.display = 'none';
+
+            //     if (!product) {
+            //         showNotFound();
+            //         return;
+            //     }
+
+            //     currentProduct = product;
+            //     displayProduct(product);
+            // }).catch(error => {
+            //     console.error('Error loading product:', error);
+            //     document.getElementById('loading').style.display = 'none';
+            //     showNotFound();
+            // });
+
+            const productRef = db.collection('products').doc(productId);
+
+            productRef.get().then((doc) => {
+                const loadingDiv = document.getElementById('loading');
+                loadingDiv.style.display = 'none';
+
+                if (!doc.exists) {
+                    showNotFound();
+                    return;
+                }
+
+                const product = doc.data();
+                currentProduct = product;
+                displayProduct(product);
+            }).catch(error => {
+                console.error('Error loading product:', error);
+                document.getElementById('loading').style.display = 'none';
+                showNotFound();
+            });
+
+        }
+
+        function displayProduct(product) {
+            const productDetailDiv = document.getElementById('product-detail');
+
+            // Set product details
+            document.getElementById('product-title').textContent = product.title;
+            document.getElementById('product-price').textContent = `₹${product.price.toLocaleString()}`;
+            document.getElementById('product-description').textContent = product.description;
+
+            // Set main image
+            const mainImage = document.getElementById('main-image');
+            mainImage.src = product.image || product.images[0];
+            mainImage.alt = product.title;
+
+            // Create thumbnails
+            if (product.images && product.images.length > 1) {
+                createThumbnails(product.images);
+            }
+
+            // Show product detail
+            productDetailDiv.style.display = 'block';
+        }
+
+        function createThumbnails(images) {
+            const thumbnailsContainer = document.getElementById('image-thumbnails');
+            thumbnailsContainer.innerHTML = '';
+
+            images.forEach((imageUrl, index) => {
+                const thumbnail = document.createElement('div');
+                thumbnail.className = `thumbnail ${index === 0 ? 'active' : ''}`;
+                thumbnail.innerHTML = `<img src="${imageUrl}" alt="Product image ${index + 1}">`;
+
+                thumbnail.addEventListener('click', () => {
+                    // Update main image
+                    document.getElementById('main-image').src = imageUrl;
+
+                    // Update active thumbnail
+                    document.querySelectorAll('.thumbnail').forEach(t => t.classList.remove('active'));
+                    thumbnail.classList.add('active');
+                });
+
+                thumbnailsContainer.appendChild(thumbnail);
+            });
+        }
+
+        function showNotFound() {
+            document.getElementById('not-found').style.display = 'block';
+        }
+
+        function buyNow() {
+            if (currentProduct) {
+                alert(`Thank you for your interest in "${currentProduct.title}"!\nPrice: ₹${currentProduct.price.toLocaleString()}\n\nRedirecting to checkout...`);
+                // Here you would typically redirect to a checkout page
+                // window.location.href = 'checkout.html?id=' + productId;
+            }
+        }
+
+        function addToWishlist() {
+            if (currentProduct) {
+                alert(`"${currentProduct.title}" has been added to your wishlist! 💝`);
+                // Here you would typically save to wishlist
+            }
+        }
+
+        // Initialize
+        loadProduct();
+    </script>
+</body>
+
+</html>
