@@ -353,43 +353,24 @@
 
         // Load products from Firebase
         function loadProducts() {
-            // const productsRef = db.ref('products');
+            const cached = sessionStorage.getItem('productData');
 
-            // productsRef.on('value', (snapshot) => {
-            //     const data = snapshot.val();
-            //     const productsDiv = document.getElementById('products');
-            //     const loadingDiv = document.getElementById('loading');
-            //     const noProductsDiv = document.getElementById('no-products');
+            if (cached) {
+                const parsed = JSON.parse(cached);
+                allProducts = parsed;
+                filteredProducts = [...allProducts];
+                displayProducts(filteredProducts);
+                document.getElementById('loading').style.display = 'none';
+                return;
+            }
 
-            //     // Hide loading
-            //     loadingDiv.style.display = 'none';
-
-            //     if (!data) {
-            //         productsDiv.innerHTML = '';
-            //         noProductsDiv.style.display = 'block';
-            //         return;
-            //     }
-
-            //     // Hide no products message
-            //     noProductsDiv.style.display = 'none';
-
-            //     // Convert to array and sort by creation time (newest first)
-            //     allProducts = Object.keys(data).map(id => ({
-            //         id,
-            //         ...data[id]
-            //     })).sort((a, b) => (b.createdAt || 0) - (a.createdAt || 0));
-
-            //     filteredProducts = [...allProducts];
-            //     displayProducts(filteredProducts);
-            // });
-
-
+            // Fetch from Firebase if not cached
             const productsRef = db.collection('products').orderBy('createdAt', 'desc');
 
-            productsRef.onSnapshot((snapshot) => {
-                const productsDiv = document.getElementById('products');
+            productsRef.get().then((snapshot) => {
                 const loadingDiv = document.getElementById('loading');
                 const noProductsDiv = document.getElementById('no-products');
+                const productsDiv = document.getElementById('products');
 
                 loadingDiv.style.display = 'none';
 
@@ -406,10 +387,12 @@
                     ...doc.data()
                 }));
 
+                // ✅ Save to session storage
+                sessionStorage.setItem('productData', JSON.stringify(allProducts));
+
                 filteredProducts = [...allProducts];
                 displayProducts(filteredProducts);
             });
-
         }
 
         function displayProducts(products) {

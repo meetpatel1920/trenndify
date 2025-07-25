@@ -20,7 +20,7 @@
         }
 
         .container {
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
         }
 
@@ -39,6 +39,89 @@
         .header p {
             color: #666;
             font-size: 1.1rem;
+        }
+
+        /* Login Form Styles */
+        .login-container {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            backdrop-filter: blur(10px);
+            max-width: 400px;
+            margin: 0 auto;
+        }
+
+        /* Admin Panel Styles */
+        .admin-panel {
+            display: none;
+        }
+
+        .admin-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: white;
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-text {
+            color: #333;
+            font-size: 1.2rem;
+            font-weight: 600;
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
+        }
+
+        .tabs {
+            display: flex;
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            margin-bottom: 30px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 15px 20px;
+            background: transparent;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            color: #666;
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(45deg, #ff7e5f, #feb47b);
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
         }
 
         .form-container {
@@ -115,12 +198,6 @@
             background: #fff5f3;
         }
 
-        .file-input-label i {
-            font-size: 2rem;
-            color: #ccc;
-            margin-bottom: 10px;
-        }
-
         .image-preview {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
@@ -155,7 +232,8 @@
             font-size: 12px;
         }
 
-        .submit-btn {
+        .submit-btn,
+        .login-btn {
             width: 100%;
             padding: 18px;
             background: linear-gradient(45deg, #ff7e5f, #feb47b);
@@ -170,15 +248,86 @@
             letter-spacing: 1px;
         }
 
-        .submit-btn:hover {
+        .submit-btn:hover,
+        .login-btn:hover {
             transform: translateY(-3px);
             box-shadow: 0 10px 25px rgba(255, 126, 95, 0.4);
         }
 
-        .submit-btn:disabled {
+        .submit-btn:disabled,
+        .login-btn:disabled {
             background: #ccc;
             cursor: not-allowed;
             transform: none;
+        }
+
+        /* Product List Styles */
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        .product-info {
+            padding: 20px;
+        }
+
+        .product-title {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .product-price {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: #ff7e5f;
+            margin-bottom: 10px;
+        }
+
+        .product-description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.4;
+            margin-bottom: 15px;
+        }
+
+        .delete-product-btn {
+            width: 100%;
+            padding: 10px;
+            background: linear-gradient(45deg, #ff4757, #ff3742);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .delete-product-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 71, 87, 0.4);
         }
 
         .loading {
@@ -232,64 +381,265 @@
             background: rgba(255, 255, 255, 0.5);
             transform: translateX(-5px);
         }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+        }
+
+        .empty-state h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
     </style>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-firestore.js"></script>
-
 </head>
 
 <body>
     <div class="container">
-        <a href="index.html" class="back-link">← Back to Shop</a>
+        <!-- Login Form -->
+        <div id="login-section">
+            <a href="index.html" class="back-link">← Back to Shop</a>
 
-        <div class="header">
-            <h1>🛒 Admin Panel</h1>
-            <p>Add new products to your store</p>
+            <div class="header">
+                <h1>🔐 Admin Login</h1>
+                <p>Enter your credentials to access admin panel</p>
+            </div>
+
+            <div class="login-container">
+                <div id="login-success-message" class="success-message"></div>
+                <div id="login-error-message" class="error-message"></div>
+
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="username">Username</label>
+                        <input type="text" id="username" placeholder="Enter username" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" placeholder="Enter password" required>
+                    </div>
+
+                    <button type="submit" class="login-btn">
+                        <span id="login-btn-text">Login</span>
+                    </button>
+                </form>
+            </div>
         </div>
 
-        <div class="form-container">
-            <div id="success-message" class="success-message"></div>
-            <div id="error-message" class="error-message"></div>
+        <!-- Admin Panel -->
+        <div id="admin-section" class="admin-panel">
+            <a href="index.html" class="back-link">← Back to Shop</a>
 
-            <form id="product-form">
-                <div class="form-group">
-                    <label for="title">Product Title</label>
-                    <input type="text" id="title" placeholder="Enter product title" required>
+            <div class="admin-header">
+                <div class="welcome-text">Welcome, <span id="admin-username">Admin</span>!</div>
+                <button id="logout-btn" class="logout-btn">Logout</button>
+            </div>
+
+            <div class="tabs">
+                <button class="tab-btn active" onclick="switchTab('add-product')">Add Product</button>
+                <button class="tab-btn" onclick="switchTab('manage-products')">Manage Products</button>
+            </div>
+
+            <!-- Add Product Tab -->
+            <div id="add-product" class="tab-content active">
+                <div class="form-container">
+                    <div id="success-message" class="success-message"></div>
+                    <div id="error-message" class="error-message"></div>
+
+                    <form id="product-form">
+                        <div class="form-group">
+                            <label for="title">Product Title</label>
+                            <input type="text" id="title" placeholder="Enter product title" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="price">Price (₹)</label>
+                            <input type="number" id="price" placeholder="Enter price" min="0" step="0.01" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="description">Description</label>
+                            <textarea id="description" placeholder="Enter product description" required></textarea>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="images">Product Images</label>
+                            <div class="file-input-container">
+                                <input type="file" id="images" class="file-input" multiple accept="image/*" required>
+                                <label for="images" class="file-input-label">
+                                    <div>📷</div>
+                                    <div>Click to select images</div>
+                                    <small>Select multiple images (Max 5)</small>
+                                </label>
+                            </div>
+                            <div id="image-preview" class="image-preview"></div>
+                        </div>
+
+                        <button type="submit" class="submit-btn">
+                            <span id="btn-text">Add Product</span>
+                        </button>
+                    </form>
                 </div>
+            </div>
 
-                <div class="form-group">
-                    <label for="price">Price (₹)</label>
-                    <input type="number" id="price" placeholder="Enter price" min="0" step="0.01" required>
-                </div>
+            <!-- Manage Products Tab -->
+            <div id="manage-products" class="tab-content">
+                <div class="form-container">
+                    <div id="products-success-message" class="success-message"></div>
+                    <div id="products-error-message" class="error-message"></div>
 
-                <div class="form-group">
-                    <label for="description">Description</label>
-                    <textarea id="description" placeholder="Enter product description" required></textarea>
-                </div>
-
-                <div class="form-group">
-                    <label for="images">Product Images</label>
-                    <div class="file-input-container">
-                        <input type="file" id="images" class="file-input" multiple accept="image/*" required>
-                        <label for="images" class="file-input-label">
-                            <div>📷</div>
-                            <div>Click to select images</div>
-                            <small>Select multiple images (Max 5)</small>
-                        </label>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <h2 style="color: #333; flex: 1; margin: 0;">Your Products</h2>
+                        <button onclick="loadProducts()" class="tab-btn"
+                            style="flex: 1; background: linear-gradient(45deg, #ff7e5f, #feb47b); color: white; border-radius: 8px; text-align: center; padding: 10px 0;">
+                            🔄 Refresh
+                        </button>
                     </div>
-                    <div id="image-preview" class="image-preview"></div>
-                </div>
 
-                <button type="submit" class="submit-btn">
-                    <span id="btn-text">Add Product</span>
-                </button>
-            </form>
+
+
+                    <div id="products-container">
+                        <div class="empty-state">
+                            <h3>Loading products...</h3>
+                            <div class="loading" style="margin: 20px auto;"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
     <script src="firebase-config.js"></script>
     <script>
         let selectedFiles = [];
+        let currentUser = null;
+
+        // Check if user is already logged in
+        window.addEventListener('load', () => {
+            const savedUser = localStorage.getItem('adminUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                showAdminPanel();
+            }
+        });
+
+        // Login functionality
+        document.getElementById('login-form').addEventListener('submit', async function (e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const password = document.getElementById('password').value.trim();
+
+            if (!username || !password) {
+                showLoginMessage('Please enter both username and password!', true);
+                return;
+            }
+
+            const loginBtn = document.querySelector('.login-btn');
+            const btnText = document.getElementById('login-btn-text');
+
+            loginBtn.disabled = true;
+            btnText.innerHTML = '<span class="loading"></span> Logging in...';
+
+            try {
+                // Query the User collection
+                const userQuery = await db.collection('user')
+                    .where('userName', '==', username)
+                    .where('password', '==', password)
+                    .get();
+
+                if (!userQuery.empty) {
+                    // User found, login successful
+                    const userData = userQuery.docs[0].data();
+                    currentUser = { username: userData.userName, id: userQuery.docs[0].id };
+
+                    // Store user session
+                    localStorage.setItem('adminUser', JSON.stringify(currentUser));
+
+                    showLoginMessage('Login successful! Welcome back!');
+
+                    setTimeout(() => {
+                        showAdminPanel();
+                    }, 1000);
+                } else {
+                    showLoginMessage('Invalid username or password!', true);
+                }
+            } catch (error) {
+                console.error('Login error:', error);
+                showLoginMessage('Login failed: ' + error.message, true);
+            } finally {
+                loginBtn.disabled = false;
+                btnText.textContent = 'Login';
+            }
+        });
+
+        // Logout functionality
+        document.getElementById('logout-btn').addEventListener('click', () => {
+            currentUser = null;
+            localStorage.removeItem('adminUser');
+            document.getElementById('login-section').style.display = 'block';
+            document.getElementById('admin-section').style.display = 'none';
+
+            // Reset login form
+            document.getElementById('login-form').reset();
+            showLoginMessage('Logged out successfully!');
+        });
+
+        function showAdminPanel() {
+            document.getElementById('login-section').style.display = 'none';
+            document.getElementById('admin-section').style.display = 'block';
+            document.getElementById('admin-username').textContent = currentUser.username;
+
+            // Load products when admin panel is shown
+            loadProducts();
+        }
+
+        function showLoginMessage(message, isError = false) {
+            const successEl = document.getElementById('login-success-message');
+            const errorEl = document.getElementById('login-error-message');
+
+            if (isError) {
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+                successEl.style.display = 'none';
+            } else {
+                successEl.textContent = message;
+                successEl.style.display = 'block';
+                errorEl.style.display = 'none';
+            }
+
+            setTimeout(() => {
+                successEl.style.display = 'none';
+                errorEl.style.display = 'none';
+            }, 5000);
+        }
+
+        // Tab switching functionality
+        function switchTab(tabName) {
+            // Hide all tab contents
+            const tabContents = document.querySelectorAll('.tab-content');
+            tabContents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all tab buttons
+            const tabBtns = document.querySelectorAll('.tab-btn');
+            tabBtns.forEach(btn => btn.classList.remove('active'));
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Add active class to clicked button
+            event.target.classList.add('active');
+
+            // Load products if manage-products tab is selected
+            if (tabName === 'manage-products') {
+                loadProducts();
+            }
+        }
 
         // Helper function to convert file to Base64
         function readFileAsBase64(file) {
@@ -360,6 +710,26 @@
             }, 5000);
         }
 
+        function showProductsMessage(message, isError = false) {
+            const successEl = document.getElementById('products-success-message');
+            const errorEl = document.getElementById('products-error-message');
+
+            if (isError) {
+                errorEl.textContent = message;
+                errorEl.style.display = 'block';
+                successEl.style.display = 'none';
+            } else {
+                successEl.textContent = message;
+                successEl.style.display = 'block';
+                errorEl.style.display = 'none';
+            }
+
+            setTimeout(() => {
+                successEl.style.display = 'none';
+                errorEl.style.display = 'none';
+            }, 5000);
+        }
+
         // Handle form submission
         document.getElementById('product-form').addEventListener('submit', async function (e) {
             e.preventDefault();
@@ -383,20 +753,9 @@
             try {
                 // Process all images
                 const imagePromises = selectedFiles.map(file => readFileAsBase64(file));
-
                 const base64Images = await Promise.all(imagePromises);
 
                 // Save to Firebase
-                // const newProductRef = db.ref('products').push();
-                // await newProductRef.set({
-                //     title,
-                //     price,
-                //     description,
-                //     images: base64Images,
-                //     image: base64Images[0], // First image as main image
-                //     createdAt: firebase.database.ServerValue.TIMESTAMP
-                // });
-
                 await db.collection('products').add({
                     title,
                     price,
@@ -405,7 +764,6 @@
                     image: base64Images[0],
                     createdAt: firebase.firestore.FieldValue.serverTimestamp()
                 });
-
 
                 showMessage('Product added successfully! 🎉');
                 this.reset();
@@ -420,6 +778,88 @@
                 btnText.textContent = 'Add Product';
             }
         });
+
+        // Load and display products
+        async function loadProducts() {
+            const container = document.getElementById('products-container');
+            container.innerHTML = `
+                <div class="empty-state">
+                    <h3>Loading products...</h3>
+                    <div class="loading" style="margin: 20px auto;"></div>
+                </div>
+            `;
+
+            try {
+                const snapshot = await db.collection('products').orderBy('createdAt', 'desc').get();
+
+                if (snapshot.empty) {
+                    container.innerHTML = `
+                        <div class="empty-state">
+                            <h3>No products found</h3>
+                            <p>Add your first product using the "Add Product" tab.</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                const productsGrid = document.createElement('div');
+                productsGrid.className = 'products-grid';
+
+                snapshot.forEach(doc => {
+                    const product = doc.data();
+                    const productCard = createProductCard(doc.id, product);
+                    productsGrid.appendChild(productCard);
+                });
+
+                container.innerHTML = '';
+                container.appendChild(productsGrid);
+
+            } catch (error) {
+                console.error('Error loading products:', error);
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <h3>Error loading products</h3>
+                        <p>${error.message}</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Create product card element
+        function createProductCard(productId, product) {
+            const card = document.createElement('div');
+            card.className = 'product-card';
+
+            card.innerHTML = `
+                <img src="${product.image}" alt="${product.title}" class="product-image">
+                <div class="product-info">
+                    <div class="product-title">${product.title}</div>
+                    <div class="product-price">₹${product.price}</div>
+                    <div class="product-description">${product.description}</div>
+                    <button onclick="deleteProduct('${productId}')" class="delete-product-btn">
+                        🗑️ Delete Product
+                    </button>
+                </div>
+            `;
+
+            return card;
+        }
+
+        // Delete product
+        async function deleteProduct(productId) {
+            if (!confirm('Are you sure you want to delete this product? This action cannot be undone.')) {
+                return;
+            }
+
+            try {
+                await db.collection('products').doc(productId).delete();
+                showProductsMessage('Product deleted successfully! 🗑️');
+                loadProducts(); // Reload the products list
+            } catch (error) {
+                console.error('Error deleting product:', error);
+                showProductsMessage('Error deleting product: ' + error.message, true);
+            }
+        }
     </script>
 </body>
 
